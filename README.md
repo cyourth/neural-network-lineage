@@ -702,4 +702,3 @@ All diagrams use [Mermaid](https://mermaid.js.org/), which GitHub renders native
 
 <sub>Scope: this lineage deliberately stops at GPT-1 (2018). Branches such as convolutional networks, Hopfield networks and Boltzmann machines are important to deep learning history but are not on the direct path to GPT-1, so they are omitted from the master figure.</sub>
 
-
