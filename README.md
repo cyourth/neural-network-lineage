@@ -30,8 +30,7 @@ Neural network history is not a clean tree. Many models inherit ideas from more 
    - [5.12 Transformer (2017)](#512-transformer-2017)
    - [5.13 GPT-1 (2018)](#513-gpt-1-2018)
 6. [Key Papers by Model Type](#6-key-papers-by-model-type)
-7. [Diagram Legend & Colour Scheme](#7-diagram-legend--colour-scheme)
-8. [Further Reading](#8-further-reading)
+7. [Further Reading](#8-further-reading)
 
 ---
 
@@ -263,17 +262,6 @@ timeline
 | **Descendants** | Multi-Layer Perceptron (MLP) |
 | **Key paper** | Rosenblatt, [*The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain*](https://doi.org/10.1037/h0042519), *Psychological Review*, 1958 |
 
-```mermaid
-flowchart LR
-    x1(("xâ‚�")) -->|"wâ‚�"| S
-    x2(("xâ‚‚")) -->|"wâ‚‚"| S
-    x3(("xâ‚ƒ")) -->|"wâ‚ƒ"| S
-    b(("bias b")) --> S
-    S["Î£ wáµ¢xáµ¢ + b"] --> STEP["Step function<br/>1 if z â‰¥ 0, else 0"]
-    STEP --> Y(("Å·"))
-    Y -.->|"error (y âˆ’ Å·)<br/>updates weights"| S
-```
-
 ---
 
 ### 5.2 Multi-Layer Perceptron + Backpropagation (1986)
@@ -288,24 +276,6 @@ flowchart LR
 | **Limitation** | Fixed-size input. It has no memory of order, so it cannot naturally process sentences of varying length. |
 | **Descendants** | RNN, CNN, and every modern deep network. Lives on inside the Transformer as the **position-wise feed-forward network**. |
 | **Key paper** | Rumelhart, Hinton & Williams, [*Learning Representations by Back-Propagating Errors*](https://doi.org/10.1038/323533a0), *Nature*, 1986 |
-
-```mermaid
-flowchart LR
-    subgraph IN["Input layer"]
-        i1((xâ‚�)); i2((xâ‚‚))
-    end
-    subgraph H["Hidden layer"]
-        h1((hâ‚�)); h2((hâ‚‚)); h3((hâ‚ƒ))
-    end
-    subgraph OUT["Output"]
-        o((Å·))
-    end
-    i1 --> h1 & h2 & h3
-    i2 --> h1 & h2 & h3
-    h1 & h2 & h3 --> o
-    o -. "âˆ‚Loss/âˆ‚w flows backward" .-> H
-    H -. "âˆ‚Loss/âˆ‚w" .-> IN
-```
 
 ---
 
@@ -322,20 +292,6 @@ flowchart LR
 | **Descendants** | LSTM, GRU, Seq2Seq |
 | **Key papers** | Elman, [*Finding Structure in Time*](https://doi.org/10.1207/s15516709cog1402_1), *Cognitive Science*, 1990 Â· Jordan, [*Serial Order: A Parallel Distributed Processing Approach*](https://doi.org/10.1016/S0166-4115(97)80111-2), 1986 (reprinted 1997) Â· Werbos, [*Backpropagation Through Time*](https://doi.org/10.1109/5.58337), 1990 Â· Bengio et al., [*Learning Long-Term Dependencies with Gradient Descent is Difficult*](https://doi.org/10.1109/72.279181), 1994 |
 
-```mermaid
-flowchart LR
-    x1["xâ‚�"] --> h1["hâ‚�"]
-    x2["xâ‚‚"] --> h2["hâ‚‚"]
-    x3["xâ‚ƒ"] --> h3["hâ‚ƒ"]
-    x4["xâ‚„"] --> h4["hâ‚„"]
-    h0["hâ‚€"] -->|"U"| h1 -->|"U"| h2 -->|"U"| h3 -->|"U"| h4
-    h1 --> y1["yâ‚�"]
-    h2 --> y2["yâ‚‚"]
-    h3 --> y3["yâ‚ƒ"]
-    h4 --> y4["yâ‚„"]
-```
-*An RNN "unrolled" over four time steps. The same weights `U` are reused at every step.*
-
 ---
 
 ### 5.4 Long Short-Term Memory (LSTM) (1997)
@@ -351,21 +307,6 @@ flowchart LR
 | **Descendants** | GRU, Seq2Seq (LSTM encoderâ€“decoders), ELMo, ULMFiT |
 | **Key papers** | Hochreiter & Schmidhuber, [*Long Short-Term Memory*](https://doi.org/10.1162/neco.1997.9.8.1735), *Neural Computation*, 1997 Â· Gers, Schmidhuber & Cummins, [*Learning to Forget*](https://doi.org/10.1162/089976600300015015), 2000 |
 
-```mermaid
-flowchart LR
-    Cprev["Câ‚œâ‚‹â‚�<br/>(cell state)"] --> X1(("Ã—"))
-    F["Forget gate fâ‚œ<br/>Ïƒ"] --> X1
-    X1 --> PLUS(("+"))
-    I["Input gate iâ‚œ<br/>Ïƒ"] --> X2(("Ã—"))
-    G["Candidate CÌƒâ‚œ<br/>tanh"] --> X2
-    X2 --> PLUS
-    PLUS --> Ct["Câ‚œ"]
-    Ct --> TANH["tanh"] --> X3(("Ã—"))
-    O["Output gate oâ‚œ<br/>Ïƒ"] --> X3
-    X3 --> ht["hâ‚œ"]
-    IN["[hâ‚œâ‚‹â‚�, xâ‚œ]"] --> F & I & G & O
-```
-
 ---
 
 ### 5.5 Neural Language Model (2003) & Word2Vec (2013)
@@ -380,18 +321,6 @@ flowchart LR
 | **Limitation** | One static vector per word. "Bank" has the same embedding in "river bank" and "bank loan." |
 | **Descendants** | GloVe, the embedding layer of every later model (Seq2Seq, Transformer, GPT-1), contextual embeddings (ELMo) |
 | **Key papers** | Bengio et al., [*A Neural Probabilistic Language Model*](https://www.jmlr.org/papers/v3/bengio03a.html), *JMLR*, 2003 Â· Mikolov et al., [*Efficient Estimation of Word Representations in Vector Space*](https://arxiv.org/abs/1301.3781), 2013 Â· Mikolov et al., [*Distributed Representations of Words and Phrases and their Compositionality*](https://arxiv.org/abs/1310.4546), 2013 |
-
-```mermaid
-flowchart LR
-    subgraph SG["Skip-gram: predict context from centre word"]
-        direction LR
-        W["'sat'"] --> E["Embedding<br/>(dense vector)"]
-        E --> C1["'the'"]
-        E --> C2["'cat'"]
-        E --> C3["'on'"]
-        E --> C4["'mat'"]
-    end
-```
 
 ---
 
@@ -423,25 +352,6 @@ flowchart LR
 | **Descendants** | Attention-based NMT, the Transformer's encoderâ€“decoder layout |
 | **Key papers** | Sutskever, Vinyals & Le, [*Sequence to Sequence Learning with Neural Networks*](https://arxiv.org/abs/1409.3215), 2014 Â· Cho et al., [*Learning Phrase Representations using RNN Encoderâ€“Decoder for Statistical Machine Translation*](https://arxiv.org/abs/1406.1078), 2014 |
 
-```mermaid
-flowchart LR
-    subgraph ENC["Encoder (LSTM)"]
-        direction LR
-        a["'the'"] --> e1["hâ‚�"] --> e2["hâ‚‚"] --> e3["hâ‚ƒ"]
-        b["'black'"] --> e2
-        c["'cat'"] --> e3
-    end
-    e3 ==>|"fixed-length<br/>context vector c"| d1
-    subgraph DEC["Decoder (LSTM)"]
-        direction LR
-        d1["sâ‚�"] --> d2["sâ‚‚"] --> d3["sâ‚ƒ"]
-        d1 --> o1["'le'"]
-        d2 --> o2["'chat'"]
-        d3 --> o3["'noir'"]
-    end
-```
-*The thick arrow is the bottleneck that attention would later remove.*
-
 ---
 
 ### 5.8 Gated Recurrent Unit (GRU) (2014)
@@ -457,16 +367,6 @@ flowchart LR
 | **Descendants** | GRU-based encoders/decoders (e.g. in Bahdanau attention); a sibling of LSTM rather than a direct ancestor of the Transformer |
 | **Key papers** | Cho et al., [*Learning Phrase Representations using RNN Encoderâ€“Decoder*](https://arxiv.org/abs/1406.1078), 2014 Â· Chung et al., [*Empirical Evaluation of Gated Recurrent Neural Networks on Sequence Modeling*](https://arxiv.org/abs/1412.3555), 2014 |
 
-```mermaid
-flowchart LR
-    IN["[hâ‚œâ‚‹â‚�, xâ‚œ]"] --> Z["Update gate zâ‚œ<br/>Ïƒ"]
-    IN --> R["Reset gate râ‚œ<br/>Ïƒ"]
-    R --> H["Candidate hÌƒâ‚œ<br/>tanh(WÂ·xâ‚œ + UÂ·(râ‚œ âŠ™ hâ‚œâ‚‹â‚�))"]
-    Z --> MIX["hâ‚œ = (1 âˆ’ zâ‚œ)Â·hâ‚œâ‚‹â‚� + zâ‚œÂ·hÌƒâ‚œ"]
-    H --> MIX
-    MIX --> OUT["hâ‚œ"]
-```
-
 ---
 
 ### 5.9 Attention Mechanism (2014)
@@ -481,17 +381,6 @@ flowchart LR
 | **Limitation** | Still bolted onto a recurrent encoder and decoder, so computation remained sequential. |
 | **Descendants** | Self-attention, the Transformer |
 | **Key papers** | Bahdanau, Cho & Bengio, [*Neural Machine Translation by Jointly Learning to Align and Translate*](https://arxiv.org/abs/1409.0473), 2014 Â· Luong, Pham & Manning, [*Effective Approaches to Attention-based Neural Machine Translation*](https://arxiv.org/abs/1508.04025), 2015 |
-
-```mermaid
-flowchart BT
-    h1["hâ‚�"] -->|"Î±â‚�"| CTX
-    h2["hâ‚‚"] -->|"Î±â‚‚"| CTX
-    h3["hâ‚ƒ"] -->|"Î±â‚ƒ"| CTX
-    h4["hâ‚„"] -->|"Î±â‚„"| CTX
-    CTX["Context câ‚œ = Î£ Î±áµ¢ háµ¢"] --> S["Decoder state sâ‚œ"]
-    Sprev["sâ‚œâ‚‹â‚�"] -.->|"scores eáµ¢ = a(sâ‚œâ‚‹â‚�, háµ¢)<br/>Î±áµ¢ = softmax(eáµ¢)"| CTX
-    S --> Y["yâ‚œ"]
-```
 
 ---
 
@@ -538,45 +427,6 @@ flowchart BT
 | **Descendants** | **GPT-1** (decoder-only), BERT (encoder-only), T5 (encoderâ€“decoder), and essentially all later large language models |
 | **Key paper** | Vaswani et al., [*Attention Is All You Need*](https://arxiv.org/abs/1706.03762), NeurIPS 2017 |
 
-```mermaid
-flowchart BT
-    subgraph ENC["Encoder Ã— N"]
-        direction BT
-        EI["Input embeddings<br/>+ positional encoding"] --> EMHA["Multi-head<br/>self-attention"]
-        EMHA --> EAN1["Add & Norm"]
-        EAN1 --> EFF["Feed-forward<br/>(MLP)"]
-        EFF --> EAN2["Add & Norm"]
-    end
-    subgraph DEC["Decoder Ã— N"]
-        direction BT
-        DI["Output embeddings (shifted)<br/>+ positional encoding"] --> DMHA["<b>Masked</b> multi-head<br/>self-attention"]
-        DMHA --> DAN1["Add & Norm"]
-        DAN1 --> DXA["Encoderâ€“decoder<br/>cross-attention"]
-        DXA --> DAN2["Add & Norm"]
-        DAN2 --> DFF["Feed-forward<br/>(MLP)"]
-        DFF --> DAN3["Add & Norm"]
-    end
-    EAN2 -->|"keys & values"| DXA
-    DAN3 --> LIN["Linear + Softmax"] --> P["Next-token probabilities"]
-
-    classDef keep fill:#CCFBF1,stroke:#0F766E,color:#042F2E
-    class DI,DMHA,DAN1,DFF,DAN3 keep
-```
-*Highlighted (teal) blocks are the parts GPT-1 keeps. GPT-1 drops the encoder and the cross-attention sub-layer.*
-
-```mermaid
-flowchart LR
-    X["Token representations X"] --> Q["Q = XW_Q"]
-    X --> K["K = XW_K"]
-    X --> V["V = XW_V"]
-    Q & K --> DOT["QKáµ€ / âˆšdâ‚–"]
-    DOT --> MASK["(optional) causal mask"]
-    MASK --> SM["softmax"]
-    SM & V --> OUT["Attention(Q,K,V)"]
-    OUT --> CAT["Concat h heads â†’ W_O"]
-```
-*Scaled dot-product attention inside one head; multi-head attention runs `h` of these in parallel and concatenates them.*
-
 ---
 
 ### 5.13 GPT-1 (2018)
@@ -591,34 +441,6 @@ flowchart LR
 | **Limitation** | Unidirectional (left-to-right) context only; still required supervised fine-tuning for each task; modest scale by later standards. |
 | **Descendants** | **GPT-2** (2019, 1.5 B parameters, zero-shot task transfer) â†’ GPT-3 â†’ InstructGPT â†’ ChatGPT. GPT-1 also directly influenced **BERT** (October 2018), whose BERT-Base model was sized to match GPT-1 for comparison but used bidirectional, masked-language-model pre-training. |
 | **Key papers** | Radford, Narasimhan, Salimans & Sutskever, [*Improving Language Understanding by Generative Pre-Training*](https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf), OpenAI, 2018 Â· OpenAI blog, [*Improving Language Understanding with Unsupervised Learning*](https://openai.com/index/language-unsupervised/), 2018 |
-
-```mermaid
-flowchart LR
-    subgraph S1["Stage 1 Â· Unsupervised pre-training"]
-        direction TB
-        BC["BooksCorpus<br/>(unlabelled text)"] --> TOK["BPE tokens<br/>+ learned positions"]
-        TOK --> DEC["12 Ã— Transformer decoder blocks<br/>(masked self-attention + FFN)"]
-        DEC --> LM["Predict next token<br/>Lâ‚� = Î£ log P(uáµ¢ | uáµ¢â‚‹â‚– â€¦ uáµ¢â‚‹â‚�)"]
-    end
-    subgraph S2["Stage 2 Â· Supervised fine-tuning"]
-        direction TB
-        TASK["Task input, reformatted:<br/>[Start] text [Delim] text [Extract]"] --> DEC2["Same pre-trained<br/>decoder stack"]
-        DEC2 --> HEAD["New linear output layer"]
-        HEAD --> LOSS["Lâ‚ƒ = Lâ‚‚ (task) + Î»Â·Lâ‚� (aux LM)"]
-    end
-    S1 ==>|"transfer all weights"| S2
-```
-
-```mermaid
-flowchart TB
-    subgraph FMT["GPT-1 input transformations (one model, many tasks)"]
-        direction TB
-        C["<b>Classification</b><br/>Start Â· Text Â· Extract â†’ Linear"]
-        E["<b>Entailment</b><br/>Start Â· Premise Â· Delim Â· Hypothesis Â· Extract â†’ Linear"]
-        SIM["<b>Similarity</b><br/>both orderings of (Text1, Text2) â†’ summed â†’ Linear"]
-        MC["<b>Multiple choice</b><br/>Context Â· Delim Â· Answerâ‚– for each k â†’ softmax over k"]
-    end
-```
 
 ---
 
@@ -669,34 +491,18 @@ flowchart TB
 
 ---
 
-## 7. Diagram Legend & Colour Scheme
-
-| Colour | Model type | Nodes in Figure 1 |
-|--------|-----------|-------------------|
-| ðŸŸ¦ Blue | Foundational neural networks | McCullochâ€“Pitts, Perceptron, MLP |
-| ðŸŸ© Green | Sequence models | RNN, LSTM, GRU |
-| â¬œ Grey | Representations & pre-training | NPLM, Word2Vec, GloVe, LM pre-training |
-| ðŸŸ§ Orange | Attention mechanisms | Seq2Seq, Attention, Self-Attention |
-| ðŸŸ¥ Red | Transformer architecture | Transformer |
-| ðŸŸ© Teal | Decoder models (GPT family) | GPT-1 |
-| â—»ï¸� Dashed outline | Critique / event, not a model | Minsky & Papert 1969 |
-
-| Arrow | Meaning |
-|-------|---------|
-| `â”€â”€â–º` solid | Direct architectural descendant |
-| `- - â–º` dashed | Conceptual influence |
-| `â•�â•�â–º` thick | Major paradigm shift |
-
-All diagrams use [Mermaid](https://mermaid.js.org/), which GitHub renders natively inside Markdown, so no image files are needed.
-
----
-
-## 8. Further Reading
+## 7. Further Reading
 
 - Schmidhuber, J. (2015). [Deep Learning in Neural Networks: An Overview](https://doi.org/10.1016/j.neunet.2014.09.003). *Neural Networks*, 61, 85â€“117.
 - Goodfellow, Bengio & Courville (2016). [*Deep Learning*](https://www.deeplearningbook.org/). MIT Press.
 - Jurafsky & Martin. [*Speech and Language Processing* (3rd ed. draft)](https://web.stanford.edu/~jurafsky/slp3/).
 - Alammar, J. [The Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/).
+
+---
+
+## License
+
+MIT license with Copyright (c) 2026 Clinton Yourth
 
 ---
 
